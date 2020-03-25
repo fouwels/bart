@@ -1,0 +1,26 @@
+on: 
+    push:
+
+jobs:
+  build-and-publish:
+    env:
+        REGISTRY: registry2.lagoni.co.uk
+        REPO: ${{github.repository}}
+
+    runs-on: ubuntu-latest
+    name: build-and-publish
+    steps:
+    - name: detail
+      run: echo "Running for target $REGISTRY/$REPO:${GITHUB_REF##*/}"
+
+    - name: checkout
+      uses: actions/checkout@master
+
+    - name: build
+      run: docker build -t $REGISTRY/$REPO:${GITHUB_REF##*/} .
+ 
+    - name: authenticate
+      run: echo LagoniP13 | docker login -u kaelan.fouwels --password-stdin $REGISTRY
+
+    - name: publish
+      run: docker push $REGISTRY/$REPO:${GITHUB_REF##*/}
