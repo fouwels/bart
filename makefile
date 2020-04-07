@@ -1,7 +1,6 @@
 # Compose
 COMPOSE=docker-compose
-BUILDFILE=build.yml
-STACKFILE=./stack/stack.yml
+BUILDFILE=stack.yml
 DOCKER=docker
 
 # Config
