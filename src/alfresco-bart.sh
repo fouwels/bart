@@ -44,12 +44,12 @@ else
 	echo alfresco-bart.properties file not found, edit $0 and modify ALFBRT_PATH
 fi
 
-# Do not let this script run more than once
-PROC=`ps axu | grep -v "grep" | grep --count "duplicity"`
-if [ $PROC -gt 0 ]; then 
-	echo "alfresco-bart.sh or duplicity is already running."
-	exit 1
-fi
+# # Do not let this script run more than once
+# PROC=`ps axu | grep -v "grep" | grep --count "duplicity"`
+# if [ $PROC -gt 0 ]; then 
+# 	echo "alfresco-bart.sh or duplicity is already running."
+# 	exit 1
+# fi
 
 # Command usage menu
 usage(){
