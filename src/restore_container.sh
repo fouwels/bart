@@ -1,6 +1,7 @@
 echo "Restoring backup from /tmp into /opt/alfresco/alf_data"
 echo "Ensure a BART restore has been run for the desired snapshot, restored into /tmp"
-echo "Ensure alfresco, share, solr6, and postgres containers have been created, but are not currently running"
+echo "Ensure alfresco, share, and solr6 containers are NOT currently running."
+echo "Ensure the postgres container IS running."
 read -p "Press enter to confirm"
 
 echo ""

@@ -7,7 +7,7 @@ RUN pip3 install duplicity
 
 COPY ./src/ /root/src/
 RUN chmod +x /root/src/bart.sh
-RUN chmod +x /root/src/restore_backup.sh
+RUN chmod +x /root/src/restore_container.sh
 ENV PATH $PATH:/root/src
 
 # Create to allow script to place it's logs
