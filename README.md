@@ -1,3 +1,18 @@
+Modified by KF
+
+An additional script has been added, executable via "restore_container.sh".
+
+This will take files restored by BART into /tmp, and restore them to the alfresco and postgres database containers.
+
+This should be run after performing a BART restore
+
+BART commands can be called once the container is running via `docker exec -it bart bart.sh <command>`. For example, `docker exec -it bart bart.sh backup`. 
+
+Restore_container can be called as `docker exec -it bart restore_container.sh`.
+
+
+
+
 Alfresco BART - Backup and Recovery Tool
 ========================================
 Copyright (c) 2013 Toni de la Fuente blyx.com.
