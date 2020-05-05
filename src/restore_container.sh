@@ -7,12 +7,14 @@ echo "Ensure the postgres container IS running."
 read -p "Press enter to confirm"
 
 echo ""
-echo "Going to drop and restore 'alfresco' database. This may not exist."
+echo "Going to drop and recreate 'alfresco' database. This may not exist."
 read -p "Press enter to confirm"
 export PGPASSWORD="alfresco"
 /usr/bin/psql -h postgres -U alfresco -d postgres -c "drop database alfresco"
 /usr/bin/psql -h postgres -U alfresco -d postgres -c "create database alfresco"
-read -p "Press enter to continue"
+
+echo "Going to restore backup to 'alfresco' database."
+read -p "Press enter to confirm"
 /usr/bin/pg_restore -h postgres -U alfresco -d alfresco /tmp/db/alfresco.sql.Fc
 
 echo ""
