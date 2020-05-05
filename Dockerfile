@@ -6,7 +6,7 @@ RUN apk add --no-cache librsync-dev
 RUN pip3 install duplicity
 
 COPY ./src/ /root/src/
-RUN chmod +x /root/src/alfresco-bart.sh
+RUN chmod +x /root/src/bart.sh
 ENV PATH $PATH:/root/src
 
 # Create to allow script to place it's logs
