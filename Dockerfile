@@ -2,7 +2,7 @@ FROM alpine:latest
 # Verified on alpine:3.11
 
 RUN apk add --no-cache bash py3-pip python3 librsync gnupg py3-boto mysql-client postgresql-client gcc python3-dev musl-dev linux-headers librsync
-RUN apk add --no-cache librsync-dev
+RUN apk add --no-cache librsync-dev rsync
 RUN pip3 install duplicity
 
 COPY ./src/ /root/src/

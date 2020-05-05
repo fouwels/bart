@@ -31,14 +31,14 @@ echo 'cp -a /tmp/cs/contentstore /opt/alfresco/alf_data/contentstore'
 read -p "Press enter to confirm"
 
 rm -rf /opt/alfresco/alf_data/contentstore || true
-cp -a /tmp/cs/contentstore /opt/alfresco/alf_data/contentstore
+rsync --info=progress2 -a /tmp/cs/contentstore /opt/alfresco/alf_data/contentstore
 
 echo "Going to remove and replace contentstore.deleted. This may not exist"
 echo 'rm -rf /opt/alfresco/alf_data/contentstore.deleted || true'
 echo 'cp -a /tmp/cs/contentstore.deleted /opt/alfresco/alf_data/contentstore.deleted || true'
 
 rm -rf /opt/alfresco/alf_data/contentstore.deleted || true
-cp -a /tmp/cs/contentstore.deleted /opt/alfresco/alf_data/contentstore.deleted || true
+rsync --info=progress2 -a /tmp/cs/contentstore.deleted /opt/alfresco/alf_data/contentstore.deleted || true
 
 echo "Complete. You should now remove the old alfresco, share, and solr6 containers, and recreate them via make up."
 echo "****************************************************************************" 
