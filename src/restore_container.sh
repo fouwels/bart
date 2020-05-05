@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 echo "Restoring backup from /tmp into /opt/alfresco/alf_data"
 echo "Ensure a BART restore has been run for the desired snapshot, restored into /tmp"
 echo "Ensure alfresco, share, and solr6 containers are NOT currently running."
