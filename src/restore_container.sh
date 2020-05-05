@@ -36,7 +36,6 @@ cp -a /tmp/cs/contentstore /opt/alfresco/alf_data/contentstore
 echo "Going to remove and replace contentstore.deleted. This may not exist"
 echo 'rm -rf /opt/alfresco/alf_data/contentstore.deleted || true'
 echo 'cp -a /tmp/cs/contentstore.deleted /opt/alfresco/alf_data/contentstore.deleted || true'
-read -p "Press enter to confirm"
 
 rm -rf /opt/alfresco/alf_data/contentstore.deleted || true
 cp -a /tmp/cs/contentstore.deleted /opt/alfresco/alf_data/contentstore.deleted || true
