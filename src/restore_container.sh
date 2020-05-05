@@ -8,13 +8,15 @@ read -p "Press enter to confirm"
 
 echo ""
 echo "Going to drop and recreate 'alfresco' database. This may not exist."
-echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "drop database alfresco"'
-echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "create database alfresco"'
+echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "DROP DATABASE alfresco"'
+echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "CREATE DATABASE alfresco WITH OWNER alfresco ENCODING "utf8";'
+echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE alfresco TO alfresco;"'
 read -p "Press enter to confirm"
 
 export PGPASSWORD="alfresco"
-/usr/bin/psql -h postgres -U alfresco -d postgres -c "drop database alfresco"
-/usr/bin/psql -h postgres -U alfresco -d postgres -c "create database alfresco"
+/usr/bin/psql -h postgres -U alfresco -d postgres -c "DROP DATABASE alfresco"
+/usr/bin/psql -h postgres -U alfresco -d postgres -c "CREATE DATABASE alfresco WITH OWNER alfresco ENCODING 'utf8';"
+/usr/bin/psql -h postgres -U alfresco -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE alfresco TO alfresco;"
 
 echo "Going to restore backup to 'alfresco' database."
 echo '/usr/bin/pg_restore -h postgres -U alfresco -d alfresco /tmp/db/alfresco.sql.Fc'
