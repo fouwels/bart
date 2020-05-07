@@ -10,10 +10,3 @@ COPY ./src/ /root/src/
 RUN chmod +x /root/src/bart.sh
 RUN chmod +x /root/src/restore_container.sh
 ENV PATH $PATH:/root/src
-
-# Create to allow script to place it's logs
-RUN mkdir -p /var/log/bart
-RUN touch /var/log/bart/log.txt
-RUN ln -sf /dev/stdout /var/log/bart/log.txt && ln -sf /dev/stderr /var/log/bart/log.txt
-
-CMD ["tail", "-f", "/var/log/bart/log.txt"]
