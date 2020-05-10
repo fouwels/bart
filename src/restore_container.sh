@@ -8,9 +8,6 @@ read -p "Press enter to confirm"
 
 echo ""
 echo "Going to drop and recreate 'alfresco' database. This may not exist."
-echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "DROP DATABASE alfresco"'
-echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "CREATE DATABASE alfresco WITH OWNER alfresco ENCODING "utf8";'
-echo '/usr/bin/psql -h postgres -U alfresco -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE alfresco TO alfresco;"'
 read -p "Press enter to confirm"
 
 export PGPASSWORD="alfresco"
@@ -19,26 +16,21 @@ export PGPASSWORD="alfresco"
 /usr/bin/psql -h postgres -U alfresco -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE alfresco TO alfresco;"
 
 echo "Going to restore backup to 'alfresco' database."
-echo '/usr/bin/pg_restore -h postgres -U alfresco -d alfresco /tmp/db/alfresco.sql.Fc'
 read -p "Press enter to confirm"
 
 /usr/bin/pg_restore -h postgres -U alfresco -d alfresco /tmp/db/alfresco.sql.Fc
 
 echo ""
 echo "Going to remove and replace contentstore"
-echo 'rm -rf /opt/alfresco/alf_data/contentstore || true'
-echo 'cp -a /tmp/cs/contentstore /opt/alfresco/alf_data/contentstore'
 read -p "Press enter to confirm"
 
-rm -rf /opt/alfresco/alf_data/contentstore || true
-rsync --info=progress2 -a /tmp/cs/contentstore /opt/alfresco/alf_data/contentstore
+rm -rf /usr/local/alfresco/alf_data/contentstore || true
+rsync --info=progress2 -a /tmp/cs/contentstore/ /usr/local/alfresco/alf_data/contentstore
 
 echo "Going to remove and replace contentstore.deleted. This may not exist"
-echo 'rm -rf /opt/alfresco/alf_data/contentstore.deleted || true'
-echo 'cp -a /tmp/cs/contentstore.deleted /opt/alfresco/alf_data/contentstore.deleted || true'
 
-rm -rf /opt/alfresco/alf_data/contentstore.deleted || true
-rsync --info=progress2 -a /tmp/cs/contentstore.deleted /opt/alfresco/alf_data/contentstore.deleted || true
+rm -rf /usr/local/alfresco/alf_data/contentstore.deleted || true
+rsync --info=progress2 -a /tmp/cs/contentstore.deleted/ /usr/local/alfresco/alf_data/contentstore.deleted || true
 
 echo "Complete. You should now remove the old alfresco, share, and solr6 containers, and recreate them via make up."
 echo "****************************************************************************" 
