@@ -783,7 +783,7 @@ function maintenanceCommands () {
 		## INDEX backup collection maintenance
 		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/index/backup" >> $ALFBRT_LOG_FILE
   		$DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/index/backup >> $ALFBRT_LOG_FILE
-  		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/index/backup" >> $ALFBRT_LOG_FILE 2>&1
+  		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/index/backup" >> $ALFBRT_LOG_FILE 2>&1
   		$DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/index/backup >> $ALFBRT_LOG_FILE
   		if [ ${INDEXTYPE} == 'solr' ]; then
   			$DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/index/config >> $ALFBRT_LOG_FILE
@@ -794,20 +794,20 @@ function maintenanceCommands () {
 	if [ ${BACKUP_DB_ENABLED} == 'true' ]; then
 		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/db" >> $ALFBRT_LOG_FILE
 		$DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/db >> $ALFBRT_LOG_FILE
-		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/db" >> $ALFBRT_LOG_FILE 2>&1
+		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/db" >> $ALFBRT_LOG_FILE 2>&1
 		$DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/db >> $ALFBRT_LOG_FILE
 	fi
 
 	if [ ${BACKUP_CONTENTSTORE_ENABLED} == 'true' ]; then
 		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/cs" >> $ALFBRT_LOG_FILE
   		$DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/cs >> $ALFBRT_LOG_FILE 2>&1
-  		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/cs" >> $ALFBRT_LOG_FILE 2>&1
+  		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/cs" >> $ALFBRT_LOG_FILE 2>&1
   		$DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/cs >> $ALFBRT_LOG_FILE 2>&1
 	fi
 	if [ ${BACKUP_FILES_ENABLED} == 'true' ]; then
 		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/files" >> $ALFBRT_LOG_FILE
   		$DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/files >> $ALFBRT_LOG_FILE 2>&1
-  		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/files" >> $ALFBRT_LOG_FILE 2>&1
+  		echo "`date +%F-%X` - $BART_LOG_TAG Running command - $DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/files" >> $ALFBRT_LOG_FILE 2>&1
   		$DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY} --log-file=${ALFBRT_LOG_FILE} ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/files >> $ALFBRT_LOG_FILE 2>&1
 	fi 
 	echo "`date +%F-%X` - $BART_LOG_TAG Maintenance commands DONE!" >> $ALFBRT_LOG_FILE
