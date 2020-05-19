@@ -814,6 +814,7 @@ function maintenanceCommands () {
 }
 
 # Main options
+PARAMS="$PARAMS --allow-source-mismatch" #KF override as docker changes hose ID
 case $1 in
 	"backup" ) 
 		case $2 in
