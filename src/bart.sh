@@ -139,9 +139,6 @@ function ldapBackup {
 }
 
 function dbBackup {
-	echo 
-	echo "`date +%F-%X` - $BART_LOG_TAG Backing up the Alfresco db to $BACKUPTYPE" 
-	echo "`date +%F-%X` - $BART_LOG_TAG Starting backup - Alfresco $DBTYPE db" 
 	
 	if [ ! -d $LOCAL_BACKUP_DB_DIR ]; then
 		mkdir -p $LOCAL_BACKUP_DB_DIR
