@@ -713,6 +713,8 @@ case $1 in
 	;;
 esac
 
+echo "`date +%F-%X` - $BART_LOG_TAG Done" 
+
 # Unload al security variables
 unset PASSPHRASE
 unset AWS_ACCESS_KEY_ID
