@@ -290,22 +290,6 @@ function restoreLdap (){
 	fi
 }
 	
-function restoreFiles (){
-	restoreOptions $1 $2 $3 $4
-	if [ ${BACKUP_FILES_ENABLED} == 'true' ]; then
-		echo " =========== Starting restore FILES from $DEST/files to $RESTOREDIR/files ==========="
-		echo "`date +%F-%X` - $BART_LOG_TAG - Recovery $RESTORE_TIME_FLAG $DEST/files $RESTOREDIR/files" 
-		set -x
-		$DUPLICITYBIN restore --restore-time $RESTORE_TIME ${NOENCFLAG} ${GLOBAL_DUPLICITY_CACHE_PARMS} $DEST/files $RESTOREDIR/files
-		set +x
-		echo ""
-		echo "FILES from $DEST/files... DONE!"
-		echo ""
-	else
-		echo "No backup FILES configured to backup. Nothing to restore."
-	fi
-}
-
 function restoreWizard(){
 	WIZARD=1
     clear
@@ -320,23 +304,19 @@ function restoreWizard(){
     echo " Choose a restore option:"
     echo "	1) Full restore"
     echo " 	2) Set restore"
-    echo "	5) Restore other configuration file or directory"
     echo ""
-    echo -n " Enter an option [1|2|5] or CTRL+c to exit: " 
+    echo -n " Enter an option [1|2] or CTRL+c to exit: " 
     builtin read ASK1
     case $ASK1 in
     	1 ) 
     		RESTORECHOOSED=full
-    		echo ""
-    		echo " This wizard will help you to restore your Data Base, Content Store and rest of files to a given directory."
-    		echo ""
-    		echo -n " Type a destination path with enough space available: "
-    		builtin read RESTOREDIR
-    		while [ ! -w $RESTOREDIR ]; do
+			while [ ! -w $RESTOREDIR ]; do
     			echo " ERROR! Directory $RESTOREDIR does not exist or it does not have write permissions"
-    			echo -n " please enter a valid path: "
+    			echo -n " please enter a valid path to restore to: "
     			builtin read RESTOREDIR
     		done
+    		echo ""
+    		echo " This wizard will help you to restore your Data Base, Content Store and rest of files to a given directory."
     		echo ""
     		echo -n " Do you want to see what backups collections are available to restore? [yes|no]: "
 			read SHOWCOLANSWER
@@ -353,7 +333,7 @@ function restoreWizard(){
     		echo ""
     		echo " Specify a backup DATE (YYYY-MM-DD) to restore at or a number of DAYS+D since your valid backup. I.e.: if today is August 1st 2013 and want to restore a backup from July 26th 2013 then type \"2013-07-26\" or \"5D\" without quotes."
     		echo -n " Please type a date or number of days (use 'now' for last backup): " 
-    		builtin read RESTOREDATE 
+    		builtin read RESTOREDATE
     		echo ""
     		echo " You want to restore a $RESTORECHOOSED backup from $BACKUPTYPE with date $RESTOREDATE to $RESTOREDIR"
     		echo -n " Is that correct? [yes|no]: "
@@ -364,7 +344,6 @@ function restoreWizard(){
 			restoreLdap
 			restoreDb
 			restoreContentStore
-			restoreFiles
 			echo ""
 			echo " Restore finished! Now you have to copy and replace your existing content with the content left in $RESTOREDIR, if you need a guideline about how to recovery your Alfresco installation from a backup please read the Alfresco Backup and Desaster Recovery White Paper file."
 			echo ""
@@ -373,18 +352,16 @@ function restoreWizard(){
     	
   		2 ) 
   			RESTORECHOOSED=partial
+			while [ ! -w $RESTOREDIR ]; do
+    			echo " ERROR! Directory $RESTOREDIR does not exist or it does not have write permissions"
+    			echo -n " please enter a valid path to restore to: "
+    			builtin read RESTOREDIR
+    		done
     		echo ""
     		echo " This wizard will help you to restore one of your backup components: Data Base, Content Store or rest of files to a given directory."
     		echo ""
     		echo -n " Type a component to restore [db|cs|files|ldap]: "
     		builtin read BACKUPGROUP
-    		echo -n " Type a destination path with enough space available: "
-    		builtin read RESTOREDIR
-    		while [ ! -w $RESTOREDIR ]; do
-    			echo " ERROR! Directory $RESTOREDIR does not exist or it does not have write permissions"
-    			echo -n " please enter a valid path: "
-    			builtin read RESTOREDIR
-    		done
     		echo ""
     		echo -n " Do you want to see what backups collections are available for $BACKUPGROUP to restore? [yes|no]: "
 			read SHOWCOLANSWER
@@ -416,9 +393,6 @@ function restoreWizard(){
 			"cs" )
 				restoreContentStore
 			;;
-			"files" )
-				restoreFiles
-    		;;
 			"ldap" )
 				restoreLdap
     		;;
@@ -430,41 +404,6 @@ function restoreWizard(){
 			echo " Restore finished! Now you have to copy and replace your existing content with the content left in $RESTOREDIR, if you need a guideline about how to recovery your Alfresco installation from a backup please read the Alfresco Backup and Desaster Recovery White Paper."
 			echo ""
 			exit 1
-		;;
-		5 )
-			echo ""
-    		echo " This option will restore any other file or directory from your installation or customization (files). "
-    		echo ""
-    		
-    		echo ""
-    		echo -n " Type the file or directory name you want to restore: "
-			builtin read FILE_TO_SEARCH_IN_FILES
-			echo ""
-			echo " Looking for this file in the backup..."
-			echo ""
-			./`basename $0` list files|grep $FILE_TO_SEARCH_IN_FILES
-			echo ""
-			echo -n " Type the file or directory full path: "	
-			builtin read FILE_TO_RESTORE_PATH
-    		echo ""
-    		echo " Type a backup DATE (YYYY-MM-DD) to restore at or a number of DAYS+D since your valid backup. I.e.: if today is August 1st 2013 and want to restore a backup from July 26th 2013 then type \"2013-07-26\" or \"5D\" without quotes."
-    		echo -n " Please type a date or number of days (use 'now' for last backup): " 
-    		builtin read RESTOREDATE 
-    		echo ""
-    		echo -n " Type a destination path: "
-    		builtin read RESTOREDIR
-    		while [ ! -w $RESTOREDIR ]; do
-    			echo " ERROR! Directory $RESTOREDIR does not exist or it does not have write permissions"
-    			echo -n " please enter a valid path: "
-    			builtin read RESTOREDIR
-    		done
-    		FILE_TO_RESTORE=`basename $FILE_TO_RESTORE_PATH` 
-    		echo " You want to restore a $RESTORECHOOSED backup of $FILE_TO_RESTORE from $BACKUPTYPE with date $RESTOREDATE to $RESTOREDIR"
-    		echo -n " Is that correct? [yes|no]: "
-    		read CONFIRMRESTORE
-			read -p " To start restoring your selected backup press ENTER or CTRL+C to exit"
-			echo ""
-			$DUPLICITYBIN restore --restore-time $RESTOREDATE ${NOENCFLAG} ${GLOBAL_DUPLICITY_CACHE_PARMS} --file-to-restore $FILE_TO_RESTORE_PATH $DEST/files $RESTOREDIR/$FILE_TO_RESTORE
 		;;
   		q ) 
   			exit 0
@@ -688,7 +627,7 @@ case $1 in
 			"all" )
 				restoreDb $1 $2 $3 $4
 				restoreContentStore $1 $2 $3 $4
-				restoreFiles $1 $2 $3 $4
+				restoreLdap $1 $2 $3 $4
 			;;
 			* )
 			restoreWizard
