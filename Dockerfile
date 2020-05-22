@@ -8,6 +8,6 @@ RUN pip3 install duplicity
 
 COPY ./src/ /root/src/
 RUN chmod +x /root/src/bart.sh
-RUN chmod +x /root/src/restore_container.sh
+RUN chmod +x /root/src/restore-to-docker.sh
 
 ENV PATH $PATH:/root/src

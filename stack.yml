@@ -5,8 +5,13 @@ services:
     build:
       dockerfile: Dockerfile
       context: "."
+    environment:
+      ALFBRT_PATH: /root/config
+      RESTOREDIR: /restore
+      LDAP_ROOTPASSWORD: addme
     volumes:
       - alfresco_root:/opt/alfresco
+      #- ./config:/root/config # ADD BART Config
   recovery-db: 
     image: postgres:12
     environment:
