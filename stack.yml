@@ -11,19 +11,20 @@ services:
       LDAP_ROOTPASSWORD: addme
     volumes:
       - alfresco_root:/opt/alfresco
-      #- ./config:/root/config # ADD BART Config
-  recovery-db: 
+      - ./config/bart:/root/config # ADD BART Config
+  recovery-db:
     image: postgres:12
     environment:
       - POSTGRES_PASSWORD=noauth
       - POSTGRES_USER=nouser
       - POSTGRES_DB=alfresco_rec
-  
+
   postgres:
     image: postgres:12
     environment:
       - POSTGRES_PASSWORD=alfresco
       - POSTGRES_USER=alfresco
       - POSTGRES_DB=alfresco
+
 volumes:
   alfresco_root:
