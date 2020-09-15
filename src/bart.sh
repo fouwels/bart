@@ -65,6 +65,7 @@ Modes:
     verify [set]	verifies the backup
     collection [set]	shows all the backup sets in the archive
     list [set]		lists the files currently backed up in the archive
+	maintenance [set] manually run maintenance commands on archive
 
 Sets:
     all		do all backup sets
@@ -493,7 +494,7 @@ function collectionCommands () {
 #			echo " Please specify a valid backup group name to access its collection [ldap|db|cs|all]" 
 #		else
 		case $2 in
-			"db" )
+			"ldap" )
 				echo "=========================== BACKUP COLLECTION FOR LDAP =========================="
 				set -x
     			$DUPLICITYBIN collection-status -v0 ${NOENCFLAG}  ${GLOBAL_DUPLICITY_CACHE_PARMS} $DEST/ldap
@@ -539,9 +540,9 @@ function maintenanceCommands () {
 	
 	if [ ${BACKUP_LDAP_ENABLED} == 'true' ]; then
 		
-  		$DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY}  ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/files  2>&1
+  		$DUPLICITYBIN remove-older-than $CLEAN_TIME -v${DUPLICITY_LOG_VERBOSITY}  ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/ldap  2>&1
   		
-  		$DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY}  ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/files  2>&1
+  		$DUPLICITYBIN remove-all-inc-of-but-n-full $MAXFULL -v${DUPLICITY_LOG_VERBOSITY}  ${GLOBAL_DUPLICITY_CACHE_PARMS} --force $DEST/ldap  2>&1
 	fi 
 	
 	if [ ${BACKUP_DB_ENABLED} == 'true' ]; then
@@ -646,6 +647,10 @@ case $1 in
 	"collection" )
 		collectionCommands $1 $2
     ;;
+
+	"maintenance" )
+		maintenanceCommands
+	;;
     
 	* ) 	
 		usage
