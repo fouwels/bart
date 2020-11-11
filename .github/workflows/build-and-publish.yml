@@ -20,7 +20,7 @@ jobs:
       run: docker build -t $REGISTRY/$REPO:${GITHUB_REF##*/} .
  
     - name: authenticate
-      run: echo LagoniP13 | docker login -u kaelan.fouwels --password-stdin $REGISTRY
+      run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USER }} --password-stdin $REGISTRY
 
     - name: publish
       run: docker push $REGISTRY/$REPO:${GITHUB_REF##*/}
