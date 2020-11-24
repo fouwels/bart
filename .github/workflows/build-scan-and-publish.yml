@@ -1,0 +1,38 @@
+on:
+  push:
+name: Core
+jobs:
+  build-scan-and-publish:
+    env:
+      REGISTRY: registry2.lagoni.co.uk
+      REPO: ${{github.repository}}
+
+    runs-on: ubuntu-latest
+    name: Build, Scan, Publish
+    steps:
+      - name: Get vars
+        id: vars
+        run: echo ::set-output name=TAG::${GITHUB_REF##*/}
+
+      - name: Print headers
+        run: echo "Running for target ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}}"
+
+      - name: Checkout repo
+        uses: actions/checkout@master
+        with:
+          lfs: true
+
+      - name: authenticate
+        run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USER }} --password-stdin $REGISTRY
+
+      - name: Docker build
+        run: docker pull ${{env.REGISTRY}}/${{env.REPO}}:dev && docker build -t ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}} .
+
+      - name: Run container scan
+        uses: azure/container-scan@v0
+        with:
+          image-name: ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}}
+          severity-threshold: LOW
+
+      - name: publish
+        run: docker push ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}}

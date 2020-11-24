@@ -8,10 +8,10 @@ services:
     environment:
       ALFBRT_PATH: /root/config
       RESTOREDIR: /restore
-      LDAP_ROOTPASSWORD: addme
     volumes:
       - alfresco_root:/opt/alfresco
-      - ./config/bart:/root/config # ADD BART Config
+      - ./config-example/bart:/root/config # ADD BART Config
+
   recovery-db:
     image: postgres:12
     environment:
