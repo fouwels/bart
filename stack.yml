@@ -11,6 +11,7 @@ services:
     volumes:
       - alfresco_root:/opt/alfresco
       - ./config-example/bart:/root/config # ADD BART Config
+      - bart_keys:/keys
 
   recovery-db:
     image: postgres:12
@@ -28,3 +29,4 @@ services:
 
 volumes:
   alfresco_root:
+  bart_keys:

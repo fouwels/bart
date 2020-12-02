@@ -47,6 +47,34 @@ else
 	echo alfresco-bart.properties file not found, edit $0 and modify ALFBRT_PATH
 fi
 
+SSH_SETUP="false"
+if [ $BACKUPTYPE == "sftp" ]; then
+	SSH_SETUP="true"
+fi
+if [ $BACKUPTYPE == "scp" ]; then
+	SSH_SETUP="true"
+fi
+if [ $SSH_SETUP == "true" ]; then
+	echo "Writing SSH_KNOWN_HOST from bart config -> /root/.ssh/known_hosts"
+	mkdir -p /root/.ssh
+	echo ${SSH_KNOWN_HOST} > /root/.ssh/known_hosts
+
+	if [ ! -f "/keys/ssh/initialized" ]; then
+		echo "/keys/ssh/initialized does not exist, generating keys"
+		mkdir "/keys/ssh" 
+		ssh-keygen -f "/keys/ssh/id_ed25519" -N '' -t ed25519
+		touch "/keys/ssh/initialized"
+	fi
+
+	echo "Restoring SSH keys from /keys/ssh -> /root/.ssh"
+	cp -f /keys/ssh/id_ed25519 /root/.ssh/id_ed25519
+	cp -f /keys/ssh/id_ed25519.pub /root/.ssh/id_ed25519.pub
+	echo
+	echo "Authenticating with keypair with public key:"
+	cat /root/.ssh/id_ed25519.pub
+	echo
+fi
+
 # # Do not let this script run more than once
 # PROC=`ps axu | grep -v "grep" | grep --count "duplicity"`
 # if [ $PROC -gt 0 ]; then 
@@ -249,15 +277,11 @@ function restoreDb (){
 			echo ""
 			echo "DB from $DEST/db... DONE!"
 			echo ""
-			echo "To restore this MySQL database use next command (the existing db must be empty)"
-			echo "gunzip < $RESTOREDIR/db/$DBNAME.dump.gz | $MYSQL_BINDIR/mysql -u $DBUSER -p$DBPASS $DBNAME"
 		fi
 		if [ ${DBTYPE} == 'postgresql' ]; then
 			echo ""
 			echo "DB from $DEST/db... DONE!"
 			echo ""
-			echo "To restore this PostgreSQL database use next command (the existing db must be empty)"
-			echo "$PGSQL_BINDIR/$PGSQLRESTORE_BIN -h $DBHOST -U $DBUSER -d $DBNAME $DBNAME.sql.Fc"
 		fi
 	else
 		echo "No backup DB configured to backup. Nothing to restore."
@@ -317,9 +341,8 @@ function restoreWizard(){
     	1 ) 
     		RESTORECHOOSED=full
 			while [ ! -w $RESTOREDIR ]; do
-    			echo " ERROR! Directory $RESTOREDIR does not exist or it does not have write permissions"
-    			echo -n " please enter a valid path to restore to: "
-    			builtin read RESTOREDIR
+    			echo " Directory $RESTOREDIR does not exist, creating"
+    			mkdir -p $RESTOREDIR
     		done
     		echo ""
     		echo " This wizard will help you to restore your Data Base, Content Store and rest of files to a given directory."
@@ -464,9 +487,6 @@ function verifyCommands (){
 }
 
 function listCommands(){
-#		if [ -z $2 ]; then	
-#			echo "Please specify a valid backup group name to list [ldap|db|cs|all]" 
-#		else
 		case $2 in
 			"ldap" )
 				set -x
@@ -495,9 +515,6 @@ function listCommands(){
 }
 
 function collectionCommands () {
-#		if [ -z $2 ]; then	
-#			echo " Please specify a valid backup group name to access its collection [ldap|db|cs|all]" 
-#		else
 		case $2 in
 			"ldap" )
 				echo "=========================== BACKUP COLLECTION FOR LDAP =========================="
