@@ -1,4 +1,4 @@
-FROM alpine:3.12.1
+FROM alpine:3.13.5
 
 RUN apk add --no-cache bash py3-pip python3 librsync gnupg py3-boto mysql-client postgresql-client gcc python3-dev musl-dev linux-headers librsync openldap-clients
 RUN apk add --no-cache librsync-dev rsync gettext libffi-dev make build-base openssl-dev openssh-keygen py3-wheel
