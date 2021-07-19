@@ -1,4 +1,9 @@
 #! /usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
+#
+# SPDX-License-Identifier: MIT
+
 set -e
 
 if [ -f ${ALFBRT_PATH}/alfresco-bart.properties ]; then

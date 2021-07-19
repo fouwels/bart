@@ -1,4 +1,9 @@
-FROM alpine:3.13.5
+# SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
+#
+# SPDX-License-Identifier: MIT
+
+
+FROM alpine:3.14.0
 
 RUN apk add --no-cache bash duplicity py3-paramiko openldap-clients postgresql-client rsync
 

@@ -1,36 +1,11 @@
 #! /usr/bin/env bash
 set -e # Exit on fail
-#
+
 # Copyright (c) 2013 Toni de la Fuente.
+# SPDX-FileCopyrightText: Copyright (c) 2013 Toni de la Fuente.
+# SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
 #
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the Apache License as published by the Apache Foundation.
-#
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. 
-#
-# Most recent information about this tool is available in:
-# http://blyx.com/alfresco-bart
-#
-# Latest code available at:
-# http://blyx.com/alfresco-bart
-#
-#########################################################################################
-# alfresco-bart: ALFRESCO BACKUP AND RECOVERY TOOL 
-# Version 0.3     
-#########################################################################################
-# ACTION REQUIRED:
-# CONFIGURE alfresco-bart in the alfresco-bart.properties file and ALFBRT_PATH
-# in this file.
-# Copy all files into your ALFRESCO_INSTALLATION_PATH/scripts.
-# RUN ./alfresco-bart.sh [backup|recovery|verify|collection|list] 
-#########################################################################################
-#
-# Run backup daily at 5AM
-# 0 5 * * * root /path/to/alfresco-bart.sh backup 
-#
-#########################################################################################
+# SPDX-License-Identifier: Apache-2.0
 
 ALFBRT_LOG_FILE=/dev/stdout
 

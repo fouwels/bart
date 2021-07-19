@@ -1,5 +1,9 @@
+# SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
+#
+# SPDX-License-Identifier: MIT
+
 # Compose
-COMPOSE=docker-compose
+COMPOSE=compose-cli compose
 BUILDFILE=stack.yml
 DOCKER=docker
 
