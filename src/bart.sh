@@ -603,10 +603,6 @@ case $1 in
 			if [ ${BACKUP_CONTENTSTORE_ENABLED} == 'true' ]; then
 				contentStoreBackup
 			fi
-			# Maintenance commands (cleanups and apply retention policies)
-			if [ ${BACKUP_POLICIES_ENABLED} == 'true' ]; then
-				maintenanceCommands
-			fi
 		esac
 
 	;;
