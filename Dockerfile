@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 
-FROM alpine:3.14.0
+FROM alpine:3.14.2
 
 RUN apk add --no-cache bash duplicity py3-paramiko openldap-clients postgresql-client rsync
 
