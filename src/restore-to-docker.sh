@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 # SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
 #
@@ -7,7 +7,7 @@
 set -e
 
 if [ -f ${ALFBRT_PATH}/alfresco-bart.properties ]; then
-	. ${ALFBRT_PATH}/alfresco-bart.properties 
+	. ${ALFBRT_PATH}/alfresco-bart.properties
 else
 	echo alfresco-bart.properties file not found, edit $0 and modify ALFBRT_PATH
 fi
@@ -22,7 +22,7 @@ if [ ${BACKUP_LDAP_ENABLED} == 'true' ]; then
 	read -p "Press enter to confirm"
 
 	set -x
-	ldapadd -x -H $LDAP_ADDRESS -w $LDAP_ROOTPASSWORD -D $LDAP_ROOTUSER -f ${RESTOREDIR}/ldap/ldap.ldif 
+	ldapadd -x -H $LDAP_ADDRESS -w $LDAP_ROOTPASSWORD -D $LDAP_ROOTUSER -f ${RESTOREDIR}/ldap/ldap.ldif
 	set +x
 fi
 
@@ -37,7 +37,7 @@ if [ ${BACKUP_DB_ENABLED} == 'true' ]; then
 	/usr/bin/psql -h $DBHOST -U $DBUSER -d postgres -c "DROP DATABASE alfresco"
 	/usr/bin/psql -h $DBHOST -U $DBUSER -d postgres -c "CREATE DATABASE alfresco WITH OWNER alfresco ENCODING 'utf8';"
 	/usr/bin/psql -h $DBHOST -U $DBUSER -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE alfresco TO alfresco;"
-	set +x 
+	set +x
 
 	echo "Restoring database backup file"
 
@@ -65,7 +65,7 @@ if [ ${BACKUP_CONTENTSTORE_ENABLED} == 'true' ]; then
 fi
 
 echo "Complete. You should now start the rest of the containers via 'make up-d'."
-echo "****************************************************************************" 
+echo "****************************************************************************"
 echo "* NOTE. The share + nginx containers may need to be restarted              *"
 echo "* after their initial creation.                                            *"
 echo "****************************************************************************"
