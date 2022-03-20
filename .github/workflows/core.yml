@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
+# SPDX-FileCopyrightText: 2021 Kaelan Thijs Fouwels <kaelan.thijs@fouwels.com>
 #
 # SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ name: Core
 jobs:
   build-scan-and-publish:
     env:
-      REGISTRY: registry2.lagoni.co.uk
+      REGISTRY: ghcr.io
       REPO: ${{github.repository}}
 
     runs-on: ubuntu-latest
@@ -18,16 +18,8 @@ jobs:
         id: vars
         run: echo ::set-output name=TAG::${GITHUB_REF##*/}
 
-      - name: Print headers
-        run: echo "Running for target ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}}"
-
       - name: Checkout repo
-        uses: actions/checkout@master
-        with:
-          lfs: true
-
-      - name: authenticate
-        run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USER }} --password-stdin $REGISTRY
+        uses: actions/checkout@v2
 
       - name: Docker build
         run: docker build -t ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}} .
@@ -37,6 +29,9 @@ jobs:
         with:
           image-name: ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}}
           severity-threshold: LOW
+
+      - name: authenticate
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ github.actor }} --password-stdin $REGISTRY
 
       - name: publish
         run: docker push ${{env.REGISTRY}}/${{env.REPO}}:${{steps.vars.outputs.TAG}}

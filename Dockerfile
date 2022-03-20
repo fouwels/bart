@@ -1,9 +1,10 @@
+# SPDX-FileCopyrightText: 2022 Kaelan Thijs Fouwels <kaelan.thijs@fouwels.com>
 # SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
 #
 # SPDX-License-Identifier: MIT
 
 
-FROM alpine:3.14.2
+FROM alpine:3.15.1
 
 RUN apk add --no-cache bash duplicity py3-paramiko openldap-clients postgresql-client rsync
 

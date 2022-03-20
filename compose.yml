@@ -1,11 +1,11 @@
+# SPDX-FileCopyrightText: 2022 Kaelan Thijs Fouwels <kaelan.thijs@fouwels.com>
 # SPDX-FileCopyrightText: 2021 Belcan Advanced Solution
 #
 # SPDX-License-Identifier: MIT
-
-version: "2"
+---
 services:
-  alfresco-backup-and-recovery-tool:
-    image: registry2.lagoni.co.uk/lagoni-engineering/alfresco-backup-and-recovery-tool:dev
+  bart:
+    image: ghcr.io/belcan-as/bart:dev
     build:
       dockerfile: Dockerfile
       context: "."
